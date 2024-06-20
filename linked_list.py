@@ -132,10 +132,18 @@ class LinkedList:
     def reverse(self):
         temp = self.head
         self.head, self.tail = self.tail, self.head
-        after = temp.next
         before = None
-        for _ in range(self.length):
+        after = temp.next
+
+        while temp:
             after = temp.next
             temp.next = before
             before = temp
             temp = after
+        
+        return before
+    
+    def middlenode(self):
+        length = int(self.length / 2)
+        middle_node = self.get(index=length)
+        return middle_node.value if middle_node else None
