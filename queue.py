@@ -1,51 +1,59 @@
+class Node(object):
+    def __init__(self, value):
+        self.value = value
+        self.next = None
 
-from collections import deque
-
-dlist = deque()
-
-try:
-    state = True
-    while state:
-        print("\nThe keys for the operations are:\nadd element          -> 'A/a'\nlast element         -> 'S/s'\ndelete last element  -> 'D/d'\nempty or not         -> 'E/e'\nsize of stack        -> 'W/w'\ntotal                -> 'T/t'\nto quit              -> 'Q/q'")
-        print("\n**************************\n")
-        
-        x = input("Enter the command: ").lower()
-
-        if x == 'a':
-            print("\n**************************\n")
-            val = int(input("Enter the element to push: "))
-            dlist.appendleft(val)
-        
-        elif x == 's':
-            print("The last element in the stack is",dlist[0])
-        
-        elif x == 'd':
-            r = dlist.pop(0)
-            print("Element {} is popped".format(r))
-        
-        elif x == 'e':
-            if len(dlist) == 0:
-                print("The deque is empty")
-            else:
-                print("The Deque is not empty")
-        
-        elif x == 'w':
-            print("The size of the stack is",len(dlist))
-        
-        elif x == 'q':
-            print("\n**************************\n")
-            print("Exited Successfully")
-            print("\n**************************\n")
-            state = False
-        
-        elif x == 't':
-            print("__________________________")
-            print(dlist)
-            print("__________________________")
-
+class Queue:
+    def __init__(self, value):
+        new_node = Node(value)
+        self.first = new_node
+        self.last = new_node
+        self.length = 1
+    
+    def print_queue(self):
+        print_value = ""
+        temp = self.first
+        while temp is not None:
+            print_value += f" {temp.value} <-"
+            temp = temp.next
+        print(print_value)
+    
+    def enqueue(self, value):
+        new_node = Node(value)
+        if self.length == 0:
+            self.first = new_node
+            self.last = new_node
         else:
-            print("Invalid operators")
-except KeyboardInterrupt:
-    print("Wrong key")
-except IndexError as e:
-    print(e)
+            self.last.next = new_node
+            self.last = new_node
+        self.length += 1
+        return True
+    
+    def dequeue(self):
+        if self.length == 0:
+            return None
+        temp = self.first
+        self.first = self.first.next
+        temp.next = None
+        self.length -= 1
+        return temp
+    
+    def reverse(self):
+        temp = self.first
+        before = None
+        self.last = self.first
+
+        while temp is not None:
+            after = temp.next
+            temp.next = before
+            before = temp
+            temp = after
+        
+        self.first = before
+
+queue = Queue(1)
+queue.enqueue(2)
+queue.enqueue(3)
+queue.print_queue()
+queue.reverse()
+queue.print_queue()
