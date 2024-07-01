@@ -1,50 +1,52 @@
+class Node(object):
+    def __init__(self, value) -> None:
+        self.value = value
+        self.next = None
 
-from collections import deque
-import collections
-
-dlist = deque()
-
-try:
-    state = True
-    while state:
-        print("\nThe keys for the operations are:\nadd element          -> 'A/a'\nlast element         -> 'S/s'\ndelete last element  -> 'D/d'\nempty or not         -> 'E/e'\nsize of stack        -> 'W/w'\ntotal                -> 'T/t'\nto quit              -> 'Q/q'")
-        print("\n**************************\n")
-        
-        x = input("Enter the command: ").lower()
-
-        if x == 'a':
-            print("\n**************************\n")
-            val = int(input("Enter the element to push: "))
-            dlist.append(val)
-        
-        elif x == 's':
-            print(dlist[-1])
-        
-        elif x == 'd':
-            r = dlist.pop()
-            print("Element {} is popped".format(r))
-        
-        elif x == 'e':
-            if len(dlist) == 0:
-                print("The deque is empty")
-            else:
-                print("The Deque is not empty")
-        
-        elif x == 'w':
-            print("The size of the stack is",len(dlist))
-        
-        elif x == 'q':
-            print("Exited Successfully")
-            state = False
-        
-        elif x == 't':
-            print("__________________________")
-            print(dlist)
-            print("__________________________")
-
+class Stack:
+    def __init__(self, value=None) -> None:
+        new_node = Node(value)
+        self.top = new_node
+        self.height = 1
+    
+    def push(self, value):
+        new_node = Node(value)
+        if self.height == 0:
+            self.top = new_node
         else:
-            print("Invalid operators")
-except KeyboardInterrupt:
-    print("Wrong key")
-except IndexError as e:
-    print(e)
+            new_node.next = self.top
+            self.top = new_node
+        self.height += 1
+        return True
+    
+    def pop(self):
+        if self.height == 0:
+            return None
+        temp = self.top
+        self.top = self.top.next
+        temp.next = None
+        self.height -= 1
+        return temp.value
+    
+    def reverse(self):
+        before = None
+        temp = self.top
+
+        while temp is not None:
+            after = temp.next
+            temp.next = before
+            before = temp
+            temp = after
+        
+        self.top = before
+
+    def print_stack(self):
+        print_value = ""
+        temp = self.top
+        while temp is not None:
+            print_value += f"{temp.value} -> "
+            temp = temp.next
+        if print_value:
+            print(print_value)
+        else:
+            print("Stack is empty")
