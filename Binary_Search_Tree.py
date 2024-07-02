@@ -67,3 +67,23 @@ class BinarySearchTree:
                 stack.append(node.left)
                 stack.append(node.right)
         return total_sum
+    
+    def max_node(self, root):
+        if root is None:
+            return float("-inf")
+        leftMax = self.max_node(root.left)
+        rightMax = self.max_node(root.right)
+        return max(root.value, leftMax, rightMax)
+    
+    def max(self):
+        return self.max_node(self.root)
+    
+    def reverse_node(self, root):
+        if root is None:
+            return
+        self.reverse_node(root.left)
+        self.reverse_node(root.right)
+        root.left, root.right = root.right, root.left
+    
+    def reverse(self):
+        return self.reverse_node(self.root)
