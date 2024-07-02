@@ -44,4 +44,26 @@ class BinarySearchTree:
                     return False
                 temp = temp.right
         return False
-
+    
+    def sum_nodes(self, node):
+        if node is None:
+            return 0
+        leftSum = self.sum_nodes(node.left)
+        rightSum = self.sum_nodes(node.right)
+        return node.value + leftSum + rightSum
+    
+    def sum_recursion(self):
+        return self.sum_nodes(self.root)
+    
+    def sum_traversal(self):
+        if self.root is None:
+            return 0
+        stack = [self.root]
+        total_sum = 0
+        while stack:
+            node = stack.pop()
+            if node is not None:
+                total_sum += node.value
+                stack.append(node.left)
+                stack.append(node.right)
+        return total_sum
