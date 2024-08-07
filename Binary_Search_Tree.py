@@ -118,3 +118,139 @@ class BinarySearchTree:
     
     def min_recursion(self):
         return self.min_node(self.root)
+    
+    def __min_value(self, current_node):
+        while current_node.left is not None:
+            current_node = current_node.left
+        return current_node.value
+    
+    def __delete_node(self, current_node, value):
+        if current_node is None:
+            return None
+        if current_node.value > value:
+            current_node.left = self.__delete_node(current_node.left, value)
+        elif current_node.value < value:
+            current_node.right = self.__delete_node(current_node.right, value)
+        else:
+            if current_node.left == None and current_node.right == None:
+                return None
+            elif current_node.left == None:
+                current_node = current_node.right
+            elif current_node.right == None:
+                current_node = current_node.left
+            else:
+                sub_tree_min = self.__min_value(current_node.right)
+                current_node.value = sub_tree_min
+                current_node.right = self.__delete_node(current_node.right, sub_tree_min)
+        return current_node
+
+    def remove(self, value):
+        return self.__delete_node(self.root, value)
+    
+    def BFS(self):
+        temp = self.root
+        queue = []
+        results = []
+        if temp is None:
+            return results
+        queue.append(temp)
+        while len(queue) > 0:
+            current_node = queue.pop(0)
+            results.append(current_node.value)
+            if current_node.left is not None:
+                queue.append(current_node.left)
+            if current_node.right is not None:
+                queue.append(current_node.right)
+        return results
+    
+    def DFS_preOrder(self):
+        results = []
+
+        if self.root is None:
+            return results
+
+        def traverse(current_node):
+            results.append(current_node.value)
+            if current_node.left is not None:
+                traverse(current_node.left)
+            if current_node.right is not None:
+                traverse(current_node.right)
+
+        traverse(self.root)
+        return results 
+    
+    def DFS_postOrder(self):
+        results = []
+
+        if self.root is None:
+            return results
+
+        def traverse(current_node):
+            if current_node.left is not None:
+                traverse(current_node.left)
+            if current_node.right is not None:
+                traverse(current_node.right)
+            results.append(current_node.value)
+        
+        traverse(self.root)        
+        return results
+    
+    def DFS_inOrder(self):
+        results = []
+
+        if self.root is None:
+            return results
+
+        def traverse(current_node):
+            if current_node.left is not None:
+                traverse(current_node.left)
+            results.append(current_node.value)
+            if current_node.right is not None:
+                traverse(current_node.right)
+        
+        traverse(self.root)    
+
+        return results
+    
+    def BFS(self, node):
+        queue = []
+        results = []
+        queue.append(node)
+        while len(queue) > 0:
+            popped_node = queue.pop(0)
+            results.append(popped_node.value)
+            if popped_node.left is not None:
+                queue.append(popped_node.left)
+            if popped_node.right is not None:
+                queue.append(popped_node.right)
+        return results
+    
+    def searchBST(self, val):
+        """
+        :type root: TreeNode
+        :type val: int
+        :rtype: TreeNode
+        """
+        temp = self.root
+        node = None
+
+        while True:
+            if temp.value == val:
+                node = temp
+                break
+            if temp.value > val:
+                if temp.left is not None:
+                    temp = temp.left
+                else:
+                    break
+            if temp.value < val:
+                if temp.right is not None:
+                    temp = temp.right
+                else:
+                    break
+
+        if node == None:
+            return []
+        
+        path = self.BFS(node)
+        return path
