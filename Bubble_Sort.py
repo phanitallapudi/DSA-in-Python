@@ -1,7 +1,7 @@
 def sort(items):
     for i in range(len(items)):
-        for j in range(len(items) - 1):
-            if items[i] < items[j]:
+        for j in range(i):
+            if items[i] > items[j]:
                 items[i], items[j] = items[j], items[i]
     return items
 
