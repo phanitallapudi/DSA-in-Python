@@ -1,8 +1,9 @@
 def sort(items):
-    for i in range(len(items)):
-        for j in range(i):
-            if items[i] > items[j]:
-                items[i], items[j] = items[j], items[i]
+    n = len(items)
+    for i in range(n):
+        for j in range(0, n-i-1):
+            if items[j] > items[j+1]:
+                items[j], items[j+1] = items[j+1], items[j]
     return items
 
 items = [1, 5, 3, 2, 4]
